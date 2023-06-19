@@ -3,15 +3,15 @@ package Bfs;
 import java.io.*;
 import java.util.*;
 
-class Node {
-    int x;
-    int y;
-
-    public Node(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-}
+//class Node {
+//    int x;
+//    int y;
+//
+//    public Node(int x, int y) {
+//        this.x = x;
+//        this.y = y;
+//    }
+//}
 
 public class 그림 {
 
@@ -52,27 +52,29 @@ public class 그림 {
             }
         }
 
-
+        System.out.println(drawcount);
+        System.out.println(maxDrawSize);
     }
 
-    public static int bfs(int x, int y) {
-        q= new LinkedList<>();
-        q.offer(new Node(x,y));
+    public static void bfs(int x, int y) {
+        q = new LinkedList<>();
+        q.offer(new Node(x, y));
 
         int count = 0;
+        visited[x][y] =true;
 
-        while(!q.isEmpty()){
+        while (!q.isEmpty()) {
             Node node = q.poll();
 
-            count ++;
+            count++;
 
-            for(int dir = 0; dir < 4; dir++){
+            for (int dir = 0; dir < 4; dir++) {
                 int nx = node.x + dx[dir];
-                int ny = node.y+ dy[dir];
+                int ny = node.y + dy[dir];
 
-                if(nx < 0 || nx >= n || ny < 0 || ny>=m) continue;
+                if (nx < 0 || nx >= n || ny < 0 || ny >= m) continue;
 
-                if(visited[nx][ny] || arr[nx][ny] == 0){
+                if (visited[nx][ny] || arr[nx][ny] == 0) {
                     continue;
                 }
 
@@ -80,13 +82,11 @@ public class 그림 {
                 q.offer(new Node(nx, ny));
             }
 
-            drawcount++;
 
-            if(count > 1){
-                count --;
-            }
-            maxDrawSize = Math.max(maxDrawSize , count );
         }
+
+        drawcount++;
+        maxDrawSize = Math.max(maxDrawSize, count);
 
 
     }
