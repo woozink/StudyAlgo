@@ -4,15 +4,15 @@ import java.io.*;
 import java.util.*;
 
 
-class Pos {
-    int x;
-    int y;
-
-    public Pos(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-}
+//class Pos {
+//    int x;
+//    int y;
+//
+//    public Pos(int x, int y) {
+//        this.x = x;
+//        this.y = y;
+//    }
+//}
 
 
 public class 불 {
