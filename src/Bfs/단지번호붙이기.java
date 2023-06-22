@@ -5,15 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-class Node {
-    int x;
-    int y;
 
-    public Node(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-}
 
 public class 단지번호붙이기 {
     static int[] dx = {-1, 1, 0, 0};
