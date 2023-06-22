@@ -3,15 +3,7 @@ package Bfs;
 import java.io.*;
 import java.util.*;
 
-class Node {
-    int x;
-    int y;
 
-    public Node(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-}
 
 public class 미로탐색 {
 

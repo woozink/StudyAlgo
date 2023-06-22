@@ -75,15 +75,15 @@ public class 적록색약 {
         visited1[pos.x][pos.y] = true;
 
         while(!q.isEmpty()){
-            Pos pos2 = q.poll();
+            Pos pos1 = q.poll();
             for(int i =0; i < 4; i++){
-                int nx = pos.x + dx[i];
-                int ny = pos.y + dy[i];
+                int nx = pos1.x + dx[i];
+                int ny = pos1.y + dy[i];
 
                 if(nx <0 ||nx>= n || ny <0 || ny>= n){
                     continue;
                 }
-                if(arr1[nx][ny] != arr1[pos.x][pos.y] || visited1[nx][ny]) {
+                if(arr1[nx][ny] != arr1[pos1.x][pos1.y] || visited1[nx][ny]) {
                     continue;
                 }
 
