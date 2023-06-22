@@ -3,15 +3,15 @@ package Bfs;
 import java.io.*;
 import java.util.*;
 
-class Node {
-    int x;
-    int y;
-
-    public Node(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-}
+//class Node {
+//    int x;
+//    int y;
+//
+//    public Node(int x, int y) {
+//        this.x = x;
+//        this.y = y;
+//    }
+//}
 
 public class 영역구하기 {
     static int[] dx = {-1, 1, 0, 0};
