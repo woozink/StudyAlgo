@@ -9,7 +9,7 @@ class Kal {
     int c;
     int count;
 
-    public Kal(int l, int r, int c, int count) {
+    protected Kal(int l, int r, int c, int count) {
         this.l = l;
         this.r = r;
         this.c = c;
