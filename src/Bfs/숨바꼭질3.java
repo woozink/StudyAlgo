@@ -16,7 +16,6 @@ public class 숨바꼭질3 {
         }
     }
 
-
     static int n, k;
     static Queue<Node> q = new LinkedList<>();
     static boolean[] visited;
@@ -31,7 +30,7 @@ public class 숨바꼭질3 {
         k = Integer.parseInt(st.nextToken());
 
 
-        visited = new boolean[max+1];
+        visited = new boolean[max + 1];
         bfs();
 
         System.out.println(min);
@@ -43,21 +42,21 @@ public class 숨바꼭질3 {
         while (!q.isEmpty()) {
             Node current = q.poll();
             visited[current.x] = true;
-            if(current.x == k) min = Math.min(min, current.time);
+            if (current.x == k) min = Math.min(min, current.time);
 
 
             // 순간 이동할 때
-            if(current.x *2 <= max && visited[current.x *2] == false){
-                q.add(new Node(current.x *2, current.time));
+            if (current.x * 2 <= max && visited[current.x * 2] == false) {
+                q.add(new Node(current.x * 2, current.time));
             }
 
             // 앞으로 1 전진
-            if(current.x +1 <= max && visited[current.x +1] == false){
-                q.add(new Node(current.x+1, current.time+1));
+            if (current.x + 1 <= max && visited[current.x + 1] == false) {
+                q.add(new Node(current.x + 1, current.time + 1));
             }
             // 뒤로 1 전진
-            if(current.x -1 >=0 && visited[current.x -1] == false){
-                q.add(new Node(current.x-1, current.time+1));
+            if (current.x - 1 >= 0 && visited[current.x - 1] == false) {
+                q.add(new Node(current.x - 1, current.time + 1));
             }
 
         }
