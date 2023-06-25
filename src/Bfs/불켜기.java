@@ -34,7 +34,7 @@ public class 불켜기 {
     }
 
     static int n;
-    static boolean[][] switched, visited;
+    static boolean[][] switched, visited; // boolean 으로
     static int[] dx = {-1, 1, 0, 0};
     static int[] dy = {0, 0, -1, 1};
     static ArrayList<Node>[][] graph;
@@ -58,22 +58,20 @@ public class 불켜기 {
 
         for (int i = 0; i < m; i++) {
             st = new StringTokenizer(br.readLine());
-            int x = Integer.parseInt(st.nextToken());
-            int y = Integer.parseInt(st.nextToken());
-            int a = Integer.parseInt(st.nextToken());
-            int b = Integer.parseInt(st.nextToken());
+            int x = Integer.valueOf(st.nextToken()) - 1;
+            int y = Integer.valueOf(st.nextToken()) - 1;
+            int a = Integer.valueOf(st.nextToken()) - 1;
+            int b = Integer.valueOf(st.nextToken()) - 1;
 
             // 그래프 생성
             Node endPoint = new Node(a, b);
             graph[y][x].add(endPoint);
 
-            int count = bfs() + 1;
-
-            System.out.println(count);
-
 
         }
+        int count = bfs() + 1;
 
+        System.out.println(count);
 
     }
 
@@ -88,9 +86,49 @@ public class 불켜기 {
             Arrays.fill(visited[i], false);
         }
 
+        switched[0][0] = true;
+        visited[0][0] = true;
+
+        // 한번 시작해서 BFS 탐색하는 경우 전부 탐색
+        // 불 킨적이 없을 때까지 BFS 함수 반복
+
+        boolean turnOn = false;
+
+        while (!q.isEmpty()) {
+            Node node = q.poll();
+            for (Node neighborPoint : graph[node.y][node.x]) {
+                if(!switched[neighborPoint.y][neighborPoint.x]){
+
+                    switched[neighborPoint.y][neighborPoint.x] = true;
+                    count++;
+                    turnOn = true;
+                }
+            }
 
 
+            // 상하 좌우 이동 가능한지 ?
+            for (int i = 0; i < 4; i++) {
+                int nx = node.x + dx[i];
+                int ny = node.y + dy[i];
 
-        return 0;
+                if (nx < 0 || nx >= n || ny < 0 || ny >= n) {
+                    continue;
+                }
+
+                //불이 켜져 있거나 방문 기록이 있다면
+                if (!switched[ny][nx] || visited[ny][nx]) {
+                    continue;
+                }
+
+                q.offer(new Node(nx, ny));
+                visited[ny][nx] = true;
+
+            }
+        }
+        if (turnOn) {
+            count += bfs();
+        }
+        return count;
     }
+
 }
