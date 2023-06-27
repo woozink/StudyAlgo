@@ -13,7 +13,7 @@ public class 백조의호수 {
         }
     }
 
-    static Queue<Node> q;
+    static Queue<Node> q; // 백조
     static Queue<Node> waterq;
     static int[] dx = {-1, 1, 0, 0};
     static int[] dy = {0, 0, -1, 1};
