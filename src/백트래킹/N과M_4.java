@@ -40,8 +40,10 @@ public class N과M_4 {
             return;
         }
 
+        int start = 1;
+        if(k != 0) start = arr[k-1];
 
-        for (int i = 1; i <= n; i++) {
+        for (int i = start; i <= n; i++) {
             arr[k] = i;
             back(k + 1);
         }
