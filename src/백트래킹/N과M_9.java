@@ -5,16 +5,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-public class N과M_8 {
+public class N과M_9 {
 
     static int n;
     static int m;
-    static int[] arr;
     static List<Integer> list;
-    static List<Integer> list2;
+    static int[] arr;
     static boolean[] visited;
     static StringBuilder sb = new StringBuilder();
-
 
 
     public static void main(String[] args) throws IOException {
@@ -27,22 +25,13 @@ public class N과M_8 {
 
         visited = new boolean[n];
         list = new LinkedList<>();
-        list2 = new LinkedList<>();
+        arr = new int[n];
 
         st = new StringTokenizer(br.readLine());
         for (int i = 0; i < n; i++) {
-            list2.add(Integer.parseInt(st.nextToken()));
+            arr[i] = Integer.parseInt(st.nextToken());
         }
-        Collections.sort(list2);
-        for(int i = 0; i < list2.size(); i++){
-            if(i != 0 ){
-                if(list2.get(i) == list2.get(i-1)){
-                    list2.remove(i);
-                }
-            }
-        }
-
-        n = list2.size();
+        Arrays.sort(arr);
 
         back(0);
         System.out.println(sb);
@@ -59,11 +48,14 @@ public class N과M_8 {
             return;
         }
 
-        for (int i = index; i < n; i++) {
-            if (!visited[i]) {
-                list.add(list2.get(i));
+        int tmp = 0;// 중복 수열인지 확인하기 위해 필요한 임시 변수
+
+        for (int i = 0; i < n; i++) {
+            if (!visited[i] && tmp!= arr[i]) {
+                list.add(arr[i]);
+                tmp = arr[i];
                 visited[i] = true;
-                back(i);
+                back(i+1);
                 list.remove(list.size() - 1);
                 visited[i] = false;
             }
