@@ -4,65 +4,51 @@ import java.io.*;
 import java.util.*;
 
 public class 별찍기 {
-    static char[][] arr;
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int n = Integer.parseInt(br.readLine());
+        final int N = sc.nextInt();
 
-        arr = new char[n][n];
+        List<String> p = new ArrayList<>(N);
+        //N이 3일때 세팅
+        p.add("  *  ");
+        p.add(" * * ");
+        p.add("*****");
 
-        recur(0, 0, n, false);
-
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                sb.append(arr[i][j]);
-            }
-            sb.append('\n');
+        //N => 3*2^k, 3, 6, 12, 24, 48, ... 이니깐 k가 1번째, 2번째 를 나타냄
+        for(int k=1; 3 * (int)Math.pow(2, k) <= N; k++) { //6입력부터 루프 실행
+            setStar(p);
         }
-        System.out.println(sb);
+
+        //출력
+        for(String s : p){
+            System.out.println(s);
+        }
     }
 
-    private static void recur(int x, int y, int n, boolean blank) {
+    private static void setStar(List<String> p){
+        StringBuilder s = new StringBuilder();
+        StringBuilder s2 = new StringBuilder();
 
-        // 공백칸일 경우
-        if (blank) {
-            for (int i = x; i < x + n; i++) {
-                for (int j = y; j < y + n; j++) {
-                    arr[i][j] = ' ';
-                }
+        int pSize = p.size();
+
+        for(int i=0; pSize>i; i++){
+            s.delete(0,s.length());
+
+            //전 단계의 그림을 아래 하나, 옆 하나 이렇게 총 2개 복사
+            s.append(p.get(i)); //전 단계의 그림
+            s.append(" ");      //공백
+            s.append(p.get(i)); //전 단계의 그림
+
+            p.add(s.toString());
+
+            //전 단계 그림의 왼쪽, 오른쪽에 공백 추가
+            s2.delete(0,s.length());
+            for(int j=0; pSize>j; j++){
+                s2.append(" ");
             }
-            return;
+
+            p.set(i, s2.toString() + p.get(i) + s2.toString());
         }
-
-        // 더 이상 쪼갤 수 없을 때
-        if (n == 1) {
-            arr[x][y] = '*';
-            return;
-        }
-
-
-        /*
-        N =27 일 경우 한 블록의 사이즈 9이고
-        N = 9일 때 한 블록의 사이즈는 3이다.
-        해당 블록의 한 칸을 담을 변수를 의미 size
-         */
-
-        int size = n / 3;
-        int count = 0;
-
-        for (int i = x; i < x + n; i += size) {
-            for (int j = y; j < y + n; j += size) {
-                count++;
-                if (count == 5) {
-                    recur(i, j, size, true);
-                } else {
-                    recur(i, j, size, false);
-                }
-            }
-        }
-
-
     }
 }
