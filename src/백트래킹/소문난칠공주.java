@@ -8,6 +8,8 @@ public class 소문난칠공주 {
     static int[] member;
     static boolean[][] isMember;
     static int total = 0;
+    static int[] dx = {-1, 1, 0, 0};
+    static int[] dy = {0, 0, -1, 1};
 
 
     public static void main(String[] args) throws IOException {
@@ -41,16 +43,72 @@ public class 소문난칠공주 {
     // 5 *5 배열에서 7명을 뽑는다.
     // 조건 1 : 7명이 연결이 되어있는가?
     // 조건 2 : 이다솜 파 'S'가 4명 이상 포함이 되어 있는가 ?
+    // 지금 이게 딱 조합 코드야
     private static void dfs(int depth, int index) {
-        if(depth == 7){
-            total++;
+        if (depth == 7) {
+            if (getScnt() >= 4 && isConnected()) {
+                total++;
+            }
             return;
         }
 
-        for(int i =index; i < 25; i++){
+        for (int i = index; i < 25; i++) {
             member[depth] = i;
-            dfs(depth+1, i+1);
+            isMember[i/5][i%5] = true;
+            dfs(depth + 1, i + 1);
+            isMember[i/5][i%5] = false;
+
         }
     }
+
+    private static boolean isConnected() {
+        Queue<int[]> queue = new LinkedList<>();
+        boolean visited[][] = new boolean[5][5];
+
+        int x = member[0] / 5;
+        int y = member[0] % 5;
+
+        queue.add(new int[]{x, y});
+        visited[x][y] = true;
+        int cnt = 1;
+
+        while (!queue.isEmpty()) {
+            int[] point = queue.poll();
+
+            for (int i = 0; i < 4; i++) {
+                int nx = point[0] + dx[i];
+                int ny = point[1] + dy[i];
+
+                if (!isRange(nx, ny) || visited[nx][ny] || !isMember[nx][ny]) {
+                    continue;
+                }
+                queue.add(new int[]{nx, ny});
+                visited[nx][ny] = true;
+                cnt++;
+            }
+        }
+        return cnt == 7;
+    }
+
+    private static boolean isRange(int nx, int ny) {
+
+        if(0>nx || 4 < nx || 0 >ny || 4<ny){
+            return false;
+        }
+        return true;
+    }
+
+    private static int getScnt() {
+        // 처음 초기화
+        int Scnt = 0;
+        // for 문으로 돌면 S를 찾는다.
+        for (int index : member) {
+            int x = index / 5;
+            int y = index % 5;
+            if (students[x][y] == 'S') Scnt++;
+        }
+        return Scnt;
+    }
+
 
 }
