@@ -34,7 +34,6 @@ public class 감시 {
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
         map = new int[n][m];
-
         cctvList = new ArrayList<>();
 
         for (int i = 0; i < n; i++) {
