@@ -1,80 +1,94 @@
 package 시뮬레이션;
+
+import java.io.*;
 import java.util.*;
 
-class 치킨배달 {
-    private static int[] rewards; // 친구 단계별 보상 금액을 저장할 배열
-    private static int[][] graph; // 친구 관계를 저장할 그래프
-    private static boolean[] visited; // 방문한 노드를 체크할 배열
-    private static int target; // 보상을 받을 특정 사람
-    private static int limit; // 친구로 인정되는 최대 단계
+/*
+1. 집과 치킨집의 좌표를 각각의 LIST에 저장을 해둔다.
+2. 치킨집이 open한 개수가 m과 같다면 , 모든 집에 대해서 m개의 치킨집 중 최단 거리를 구한다.
+3. 탐색을 시작하는 지점이 치킨집의 list size가 벗어나게 되면 종료한다.
+ */
 
-    public static void main(String[] args) {
-        치킨배달 solution = new 치킨배달();
-        int[][] relationships = {{1, 2}, {2, 3}, {2, 6}, {3, 4}, {4, 5}};
-        int target = 2;
-        int limit = 3;
-        int result = solution.solution(relationships, target, limit);
-        System.out.println(result); // 37
+public class 치킨배달 {
 
-        target = 1;
-        limit = 2;
-        result = solution.solution(relationships, target, limit);
-        System.out.println(result); // 27
+    static class Node {
+
+        int x;
+        int y;
+
+        public Node(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
     }
 
-    public int solution(int[][] relationships, int target, int limit) {
-        int answer = 0;
-        this.target = target;
-        this.limit = limit;
+    static int n, m;
+    static int[][] map;
+    static ArrayList<Node> person;
+    static ArrayList<Node> chicken;
+    static int answer;
+    static boolean[] open;
 
-        // 친구 단계별 보상 금액을 초기화합니다.
-        rewards = new int[limit + 1];
-        for (int i = 1; i <= limit; i++) {
-            rewards[i] = i == 1 ? 5 : rewards[i - 1] + 5;
-        }
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        // 친구 관계를 저장할 그래프를 생성합니다.
-        int maxPerson = getMaxPerson(relationships);
-        graph = new int[maxPerson + 1][maxPerson + 1];
-        for (int[] relationship : relationships) {
-            int person1 = relationship[0];
-            int person2 = relationship[1];
-            graph[person1][person2] = 1;
-            graph[person2][person1] = 1;
-        }
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
 
-        // DFS를 이용하여 보상을 계산합니다.
-        visited = new boolean[maxPerson + 1];
-        answer = dfs(target, 1);
+        // 초기화
+        map = new int[n][n];
+        person = new ArrayList<>();
+        chicken = new ArrayList<>();
 
-        return answer;
-    }
+        // 초기 입력
+        for (int i = 0; i < n; i++) {
+            st = new StringTokenizer(br.readLine());
+            for (int j = 0; j < n; j++) {
+                map[i][j] = Integer.parseInt(st.nextToken());
 
-    private static int getMaxPerson(int[][] relationships) {
-        int maxPerson = 0;
-        for (int[] relationship : relationships) {
-            maxPerson = Math.max(maxPerson, Math.max(relationship[0], relationship[1]));
-        }
-        return maxPerson;
-    }
-
-    private static int dfs(int person, int level) {
-        visited[person] = true;
-        int totalReward = 0;
-
-        // 현재 단계의 보상을 계산합니다.
-        totalReward += rewards[level];
-
-        // 현재 단계가 최대 단계보다 작거나 같은 경우에만 계속 탐색합니다.
-        if (level <= limit) {
-            for (int i = 1; i < graph.length; i++) {
-                if (graph[person][i] == 1 && !visited[i]) {
-                    // 새롭게 알게된 친구인 경우 다음 단계로 탐색합니다.
-                    totalReward += dfs(i, level + 1);
+                // list들에다가 값 넣어 줘야지.
+                if (map[i][j] == 1) {
+                    person.add(new Node(i, j));
+                } else if (map[i][j] == 2) {
+                    chicken.add(new Node(i, j));
                 }
             }
         }
+        // 출력
+        answer = Integer.MAX_VALUE;
+        open = new boolean[chicken.size()];
 
-        return totalReward;
+        dfs(0, 0);
+
+        System.out.println(answer);
+    }
+
+    private static void dfs(int start, int cnt) {
+
+        // 기저 조건
+        if (cnt == m) {
+            int result = 0;
+            for (int i = 0; i < person.size(); i++) {
+                int temp = Integer.MAX_VALUE;
+                for (int j = 0; j < chicken.size(); j++) {
+                    if (open[j]) {  // 선택된 치킨집만 고려
+                        int distance = Math.abs(person.get(i).x - chicken.get(j).x) + Math.abs(person.get(i).y - chicken.get(j).y);
+                        temp = Math.min(temp, distance);
+                    }
+                }
+                result += temp;
+            }
+            answer = Math.min(answer, result);
+            return;
+        }
+
+        for (int i = start; i < chicken.size(); i++) {
+            open[i] = true;
+            dfs(i + 1, cnt + 1);
+            open[i] = false;
+
+        }
+
     }
 }
