@@ -38,6 +38,8 @@ public class Maaaaaaaaaze {
         order = new int[5];
         check = new boolean[5];
 
+
+        // 입력 받을 5개의 판에 대한 정보를 받아옴
         for (int z = 0; z < 5; z++) {
             for (int r = 0; r < 5; r++) {
                 StringTokenizer st = new StringTokenizer(br.readLine());
@@ -59,7 +61,7 @@ public class Maaaaaaaaaze {
         if (idx == 5) {
             copy = new int[5][5][5];
             for (int i = 0; i < order.length; i++) {
-                lotation(0);
+                lotation(0); // 각 판을 회전시켜서 쌓은 미로를 생성
             }
             return;
         }
@@ -99,7 +101,7 @@ public class Maaaaaaaaaze {
                     }
                 }
                 if (copy[0][0][0] == 1 && copy[4][4][4] == 1) {
-                    bfs();
+                    bfs(); // 시작 지점과 도착 지점이 1로 연결되어 있는 경우 BFS 수행
                 }
             }
             return;
@@ -113,7 +115,7 @@ public class Maaaaaaaaaze {
     private static void bfs() {
         Queue<Node> q = new LinkedList<>();
         visited = new boolean[5][5][5];
-        q.add(new Node(0, 0, 0,0));
+        q.add(new Node(0, 0, 0, 0));
         visited[0][0][0] = true;
 
         while (!q.isEmpty()) {
@@ -132,13 +134,13 @@ public class Maaaaaaaaaze {
                 int nc = node.c + dc[d];
                 int nz = node.z + dz[d];
 
-                if(nr < 0 || nc <0 || nz < 0 || nr>=5 || nc >=5 || nz >= 5||
-                visited[nz][nr][nc] || copy[nz][nr][nc] ==0){
+                if (nr < 0 || nc < 0 || nz < 0 || nr >= 5 || nc >= 5 || nz >= 5 ||
+                        visited[nz][nr][nc] || copy[nz][nr][nc] == 0) {
                     continue;
                 }
 
                 visited[nz][nr][nc] = true;
-                q.add(new Node(nr,nc,nz,node.cnt+1));
+                q.add(new Node(nr, nc, nz, node.cnt + 1));
 
             }
         }
