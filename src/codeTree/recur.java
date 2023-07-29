@@ -1,24 +1,30 @@
-package codeTree;
-
 import java.util.*;
 
 public class recur {
     public static void main(String[] args) {
-        // 여기에 코드를 작성해주세요.
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int sum = recur(n);
 
-        System.out.print(sum);
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+
+        int a = recur(n);
+        System.out.println(a);
     }
 
-    public static int recur(int n){
+    public static int recur(int n) {
 
-        if(n < 10){
-            return n*n;
+        // 기저 조건 ->
+        if(n <= 0){
+            if(n%2 ==0){
+                return 2;
+            }
         }
 
-        return recur(n/10) + recur(n%10);
 
+        if((n-1) % 2 ==0){
+            return recur(n-1) + n;
+        }else{
+            return recur(n-1);
+        }
     }
 }
